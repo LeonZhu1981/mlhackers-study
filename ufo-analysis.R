@@ -83,4 +83,8 @@ state.plot <- ggplot(all.sightings, aes(x = YearMonth,y = Sightings)) +
 	ylab("Number of Sightings") +
 	labs(title = "Number of UFO sightings by Month-Year and U.S. State (1990-2010)")
 
-ggsave(plot = state.plot, filename = file.path("images", "ufo_sightings.pdf"), width = 14, height = 8.5)
+rootDir<-getwd()
+imagesDir<-"images"
+outputImageFileName<-"ufo_sightings.pdf"
+dir.create(file.path(rootDir, imagesDir), showWarnings = FALSE)
+ggsave(plot = state.plot, filename = file.path(imagesDir, outputImageFileName), width = 14, height = 8.5)
