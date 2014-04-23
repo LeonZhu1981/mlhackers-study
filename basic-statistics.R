@@ -110,3 +110,30 @@ ggplot(data.frame(X = cauchy.values), aes(x = X)) + geom_density()
 #伽玛分布只有正值
 gamma.values <- rgamma(100000, 1, 0.001)
 ggplot(data.frame(X = gamma.values), aes(x = X)) + geom_density()
+
+#基本的预测数据的问题, 将分为2类:
+#1.回归问题: 根据以知的某个信息, 预测另一个信息的值.
+#2.分类问题: 给已知的数据贴上标签.	
+#研究回归问题时, 通常使用散点图来进行观察:
+#绘制散点图
+ggplot(heights.weights, aes(x = Height, y = Weight)) + geom_point()	 
+#使用增加平滑曲线去观察散点图.
+#数据量越大, 曲线周围的阴影范围越小, 说明数据的预测越精准.
+ggplot(heights.weights, aes(x = Height, y = Weight)) + geom_point() + geom_smooth()
+
+#可以根据减小数据量来观察, 数据量越小的情况下, 阴影范围越大, 预测越不精准.
+ggplot(heights.weights[1:20,], aes(x = Height, y = Weight)) + geom_point() +geom_smooth() 
+ggplot(heights.weights[1:200,], aes(x = Height, y = Weight)) + geom_point() +geom_smooth() 
+ggplot(heights.weights[1:2000,], aes(x = Height, y = Weight)) + geom_point() +geom_smooth()
+
+#对于分类, 我们需要分析出数据合理的分类标签是什么, 如下列代码, 使用性别分类.
+#通过观察散点图 根据身高和体重来预测性别. 散点图根据加入的分类特征: 性别.
+#当给定一个人的身高和体重, 数据点落在超平面的一边我们认为女性.
+#现实的分类模型往往会采用非常多的特征来预测数据.
+ggplot(heights.weights, aes(x = Height, y = Weight, color = Gender)) + geom_point()
+
+heights.weights <- transform(heights.weights, Male = ifelse( Gender == 'Male', 1, 0))
+logit.model <- glm(Male ~ Height + Weight, data = heights.weights, family = binomial(link = 'logit'))
+ggplot(heights.weights, aes(x =Height, y = Weight, color = Gender)) + 
+geom_point() +
+stat_abline(intercept = -coef(logit.model)[1]/coef(logit.model)[2], slope = -coef(logit.model)[3] / coef(logit.model)[2], geom = 'abline',color = 'black')
