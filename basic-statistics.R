@@ -8,13 +8,20 @@ my.sample <- c(21,23,25,20,11,30,19,26,27,25)
 print("the my.sample is:")
 my.sample
 #print mean
+#均值: 当数据非常对称, 且仅仅显示出一种趋势时, 适合使用. 但是如果数据有很多偏差较大的异常值, 曲线图产生偏斜时则不适合使用.
 sprintf("the mean of my.sample is: %s", mean(my.sample))
 
 #print median(中位数)
+#中位数的作用: 均值(mean)产生了曲线图向左偏斜(当中有出现大量的异常值小于均值的情况)或者向右偏斜时(当中有出现大量的异常值大于均值的情况)
+#可以使用中位数来判断数据的正确性.
+#当中数小于均值时, 曲线图向右偏斜.
+#当中数大于均值时, 曲线图向左偏斜.
+#当数据由于异常值而发生偏斜时, 适合使用.
 sprintf("the median of my.sample is: %s", median(my.sample))
 
 #R not include standard function for mode(众数)，and mode is the most of number in matrix. It's: 25. 
-
+#众数: 样本当中出现频数最多的数字. 当众数较少时, 或者当数据位类别数据时, 而不是数值型数据时(均值和中位数只能表示数值类型), 使用众数分析会最有用.
+#然而当样本当中众数比较多时, 就没有什么价值了.
 sprintf("the min of my.sample is: %s", min(my.sample))
 sprintf("the max of my.sample is: %s", max(my.sample))
 print("the range is:")
